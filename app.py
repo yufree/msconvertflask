@@ -250,7 +250,6 @@ def upload_and_convert_file():
         winedebug_value = os.getenv('WINEDEBUG', '+warn,+fixme')
 
         command_parts = [
-            "/usr/bin/sudo",
             "/usr/bin/env",
             "WINEPREFIX=/wineprefix64",
             f"WINEPATH={winepath_value}", # Use the pre-constructed string

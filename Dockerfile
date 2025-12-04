@@ -23,8 +23,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
-    python3-venv \ 
-    sudo \         
+    python3-venv \      
     xvfb \         
     && \
     rm -rf /var/lib/apt/lists/*
@@ -35,13 +34,7 @@ RUN pip3 install Flask==2.3.3 Werkzeug==2.3.7 # 固定版本以提高稳定性
 
 # 步骤 5: 创建一个非 root 用户来运行 Flask 应用 (更安全)
 # 同时将此用户添加到 sudo 组，以便后续配置 sudoers
-RUN useradd flask_user --create-home --shell /bin/bash --groups sudo || echo "User flask_user already exists or was already in sudo group."
-
-# 步骤 6: 配置 sudoers
-# 允许 flask_user 用户无密码以 root 身份运行 /usr/bin/env 命令。
-# Python 脚本将使用 "sudo /usr/bin/env VAR=val command arg" 的形式。
-RUN echo 'flask_user ALL=(root) NOPASSWD: /usr/bin/env' >> /etc/sudoers && \
-    echo "Configured sudo for flask_user to run commands via /usr/bin/env as root."
+RUN useradd flask_user --create-home --shell /bin/bash || echo "User flask_user already exists or was already in sudo group."
 
 # 步骤 7: 创建应用目录和共享数据目录
 # 应用目录
