@@ -33,8 +33,9 @@ RUN apt-get update && \
 RUN pip3 install Flask==2.3.3 Werkzeug==2.3.7 # 固定版本以提高稳定性
 
 # 步骤 5: 创建一个非 root 用户来运行 Flask 应用 (更安全)
-# 同时将此用户添加到 sudo 组，以便后续配置 sudoers
 RUN useradd flask_user --create-home --shell /bin/bash || echo "User flask_user already exists or was already in sudo group."
+# 确保 wineprefix 目录归 flask_user 所有
+RUN chown -R flask_user:flask_user /wineprefix64
 
 # 步骤 7: 创建应用目录和共享数据目录
 # 应用目录
